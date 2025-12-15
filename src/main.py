@@ -39,7 +39,7 @@ async def download_zoom_recording(
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(
-            headless=False,
+            headless=True,
             args=["--disable-blink-features=AutomationControlled"],
         )
         user_agent = (
