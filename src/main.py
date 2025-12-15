@@ -105,6 +105,12 @@ async def download_zoom_recording(
 
         print("[4/4] Extracting sharing timeline...")
 
+        # タイムラインマーカーが表示されるまで待機（最大10秒）
+        try:
+            await page.wait_for_selector("span.vjs-share-marker-button", timeout=10000)
+        except Exception:
+            pass  # タイムラインがない録画もあるため、タイムアウトは無視
+
         # 画面共有のタイミング情報を取得（SPAN要素のaria-labelから）
         sharing_timeline = await page.evaluate(r"""() => {
             const markers = document.querySelectorAll('span.vjs-share-marker-button');
